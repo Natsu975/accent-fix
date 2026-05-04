@@ -1,6 +1,6 @@
 # accent-fix
 
-**PowerAccent-style accent character picker for Wayland compositors.**
+**PowerToys Quick Accent-style character picker for Wayland compositors.**
 
 Hold a letter key, press `←` / `→` to browse accented variants, release to insert.  
 Works on **niri**, **Hyprland**, and other wlroots-based compositors.
