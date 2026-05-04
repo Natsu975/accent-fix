@@ -125,6 +125,17 @@ The overlay automatically reads colors from (in priority order):
 
 If no theme file is found, a default dark blue theme is used.
 
+## NiriMod Integration
+
+Se utilizzi **NiriMod** per gestire le tue impostazioni grafiche e vuoi un tasto comodo per accendere e spegnere Accent Fix direttamente dalla sua interfaccia, ho incluso uno script automatico.
+
+Esegui questo comando da terminale all'interno di questa cartella:
+```bash
+sudo python3 add-to-nirimod.py
+```
+
+Lo script aggiungerà automaticamente la sezione **Accent Fix** nel menu laterale di NiriMod (sotto "Advanced"). Riavvia NiriMod e troverai un comodo interruttore on/off!
+
 ## Tiling Fix (Window Managers)
 
 Il programma usa `gtk4-layer-shell` per mostrarsi come overlay, ma in caso di problemi (ad esempio se il modulo python non viene caricato correttamente) il tuo Window Manager potrebbe tentare di "incastrarlo" (tiling) invece di mostrarlo fluttuante.
