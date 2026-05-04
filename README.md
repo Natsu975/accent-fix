@@ -30,7 +30,6 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 
 ## Requirements
 
-- Linux
 - A Wayland compositor (niri, Hyprland, Sway, etc.)
 - Python 3
 
