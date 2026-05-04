@@ -12,7 +12,7 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 
 - 🎯 **Hold & pick** — Hold a letter, use arrow keys to scroll through accents, release to type
 - 🖥️ **Wayland native** — Uses GTK4 + gtk4-layer-shell overlay (no X11 needed)
-- 🎨 **Dynamic theming** — Reads accent colors from matugen, Quickshell, or Caelestia
+- 🎨 **Dynamic theming** — Reads accent colors from Mutagen
 - ⌨️ **Smart input** — Uses `evdev` grab + `uinput` for reliable character insertion
 - 🔄 **Clipboard-safe** — Saves and restores your clipboard content after each accent
 
