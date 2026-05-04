@@ -167,6 +167,11 @@ windowrulev2 = pin, class:^(accent\.fix\.daemon)$
 for_window [app_id="accent\.fix\.daemon"] floating enable
 ```
 
+## Credits
+
+- [Matugen](https://github.com/InioX/matugen) by InioX - For generating the beautiful dynamic Material You colors used by the overlay.
+- [NiriMod](https://github.com/srinivasr/nirimod) by srinivasr - For the excellent Niri configuration GUI.
+
 ## License
 
 [MIT](LICENSE)
