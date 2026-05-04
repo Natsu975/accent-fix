@@ -24,7 +24,7 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 | `e` | è é ê ë ē ė € |
 | `i` | ì í î ï ī į |
 | `o` | ò ó ô õ ö ø œ ō |
-| `u` | ù ú û ü ū ų |
+| `u` | ù ú ú ü ū ų |
 
 > More keys can be added by editing the `ACCENTS` dictionary in the daemon.
 
@@ -36,15 +36,15 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 
 ## Installation
 
-### Installazione Rapida (Doppio Clic)
+### Quick Install (Double Click)
 
-Se hai scaricato questa cartella dal browser o tramite uno zip:
-1. Entra nella cartella scaricata
-2. Fai **doppio clic** sul file `Installer.desktop`
-   *(Se il tuo gestore file te lo chiede, seleziona "Esegui" o "Consenti esecuzione")*
-3. Si aprirà un terminale che installerà automaticamente il demone e le dipendenze.
+If you downloaded this folder via browser or as a zip:
+1. Open the downloaded folder
+2. **Double click** on the `Installer.desktop` file
+   *(If your file manager asks, select "Execute" or "Allow execution")*
+3. A terminal will open and automatically install the daemon and its dependencies.
 
-### Da Terminale (metodo classico)
+### From Terminal (Classic method)
 
 ```bash
 git clone https://github.com/YOURUSERNAME/accent-fix.git
@@ -127,28 +127,28 @@ If no theme file is found, a default dark blue theme is used.
 
 ## NiriMod Integration
 
-Se gestisci le tue configurazioni visivamente ti raccomando vivamente [NiriMod](https://github.com/srinivasr/nirimod), uno strumento fantastico ed elegantissimo per configurare Niri tramite interfaccia grafica. Complimenti a [srinivasr](https://github.com/srinivasr) per questo utilissimo progetto!
+If you manage your configurations visually, I highly recommend [NiriMod](https://github.com/srinivasr/nirimod), a fantastic and elegant tool to configure Niri via a graphical interface. Kudos to [srinivasr](https://github.com/srinivasr) for this very useful project!
 
-Se vuoi un comodo interruttore on/off per accendere e spegnere *Accent Fix* direttamente dall'interfaccia di NiriMod, ho incluso uno script automatico. Esegui questo comando all'interno di questa cartella:
+If you want a convenient on/off toggle to enable and disable *Accent Fix* directly from the NiriMod interface, I've included an automated script. Run this command inside this folder:
 
 ```bash
 sudo python3 add-to-nirimod.py
 ```
 
-**Cosa fa questo script dietro le quinte?**
-1. Cerca automaticamente la cartella d'installazione di sistema di NiriMod (`/usr/lib/python3.*/site-packages/nirimod`).
-2. Crea e inserisce una nuova pagina dedicata, scritta in Python e GTK, per permettere l'integrazione con lo switch ON/OFF.
-3. Modifica in modo sicuro (`patch`) il file `window.py` di NiriMod per registrare la nuova pagina e far apparire l'icona della tastiera nella barra laterale sotto la voce "Advanced".
+**What does this script do behind the scenes?**
+1. Automatically searches for the system installation folder of NiriMod (`/usr/lib/python3.*/site-packages/nirimod`).
+2. Creates and inserts a new dedicated page, written in Python and GTK, to allow integration with the ON/OFF switch.
+3. Safely patches the `window.py` file of NiriMod to register the new page and make the keyboard icon appear in the sidebar under the "Advanced" section.
 
-Riavvia NiriMod e avrai l'interruttore sempre a portata di clic!
+Restart NiriMod and you'll have the toggle always just a click away!
 
 ## Tiling Fix (Window Managers)
 
-Il programma usa `gtk4-layer-shell` per mostrarsi come overlay, ma in caso di problemi (ad esempio se il modulo python non viene caricato correttamente) il tuo Window Manager potrebbe tentare di "incastrarlo" (tiling) invece di mostrarlo fluttuante.
+The program uses `gtk4-layer-shell` to show itself as an overlay, but in case of issues (for example if the python module is not loaded correctly) your Window Manager might try to tile it instead of showing it floating.
 
-Per assicurarti che non venga mai visualizzato come tile, aggiungi la seguente regola alla configurazione del tuo compositor:
+To make sure it is never tiled, add the following rule to your compositor's configuration:
 
-**Per Niri** (`~/.config/niri/config.kdl`):
+**For Niri** (`~/.config/niri/config.kdl`):
 ```kdl
 window-rule {
     match app-id="accent\.fix\.daemon"
@@ -156,14 +156,14 @@ window-rule {
 }
 ```
 
-**Per Hyprland** (`~/.config/hypr/hyprland.conf`):
+**For Hyprland** (`~/.config/hypr/hyprland.conf`):
 ```conf
 windowrulev2 = float, class:^(accent\.fix\.daemon)$
 windowrulev2 = noanim, class:^(accent\.fix\.daemon)$
 windowrulev2 = pin, class:^(accent\.fix\.daemon)$
 ```
 
-**Per Sway** (`~/.config/sway/config`):
+**For Sway** (`~/.config/sway/config`):
 ```config
 for_window [app_id="accent\.fix\.daemon"] floating enable
 ```
