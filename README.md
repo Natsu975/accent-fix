@@ -127,14 +127,20 @@ If no theme file is found, a default dark blue theme is used.
 
 ## NiriMod Integration
 
-Se utilizzi **NiriMod** per gestire le tue impostazioni grafiche e vuoi un tasto comodo per accendere e spegnere Accent Fix direttamente dalla sua interfaccia, ho incluso uno script automatico.
+Se gestisci le tue configurazioni visivamente ti raccomando vivamente [NiriMod](https://github.com/srinivasr/nirimod), uno strumento fantastico ed elegantissimo per configurare Niri tramite interfaccia grafica. Complimenti a [srinivasr](https://github.com/srinivasr) per questo utilissimo progetto!
 
-Esegui questo comando da terminale all'interno di questa cartella:
+Se vuoi un comodo interruttore on/off per accendere e spegnere *Accent Fix* direttamente dall'interfaccia di NiriMod, ho incluso uno script automatico. Esegui questo comando all'interno di questa cartella:
+
 ```bash
 sudo python3 add-to-nirimod.py
 ```
 
-Lo script aggiungerà automaticamente la sezione **Accent Fix** nel menu laterale di NiriMod (sotto "Advanced"). Riavvia NiriMod e troverai un comodo interruttore on/off!
+**Cosa fa questo script dietro le quinte?**
+1. Cerca automaticamente la cartella d'installazione di sistema di NiriMod (`/usr/lib/python3.*/site-packages/nirimod`).
+2. Crea e inserisce una nuova pagina dedicata, scritta in Python e GTK, per permettere l'integrazione con lo switch ON/OFF.
+3. Modifica in modo sicuro (`patch`) il file `window.py` di NiriMod per registrare la nuova pagina e far apparire l'icona della tastiera nella barra laterale sotto la voce "Advanced".
+
+Riavvia NiriMod e avrai l'interruttore sempre a portata di clic!
 
 ## Tiling Fix (Window Managers)
 
