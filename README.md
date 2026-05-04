@@ -57,7 +57,6 @@ The installer will:
 1. Install all dependencies via `paru`/`yay`/`pacman`
 2. Copy the daemon to `~/.local/bin/`
 3. Create and enable a systemd user service
-4. (Hyprland only) Add submap keybinds to prevent key conflicts
 
 ### Manual Install
 

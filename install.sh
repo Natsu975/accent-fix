@@ -98,73 +98,7 @@ systemctl --user daemon-reload
 systemctl --user enable --now accent-fix.service
 ok "Service enabled and started"
 
-# ════════════════════════════════════════════════════════════════
-hdr "4/4  Hyprland keybinds (optional)"
-# ════════════════════════════════════════════════════════════════
-HYPR_KEYBINDS="$HOME/.config/hypr/custom/keybinds.conf"
-HYPR_SNIPPET='
-# === ACCENT-FIX SUBMAP ===
-submap = accent_active
-binde = , Right, exec, true
-binde = , Left, exec, true
-binde = , a, exec, true
-binde = , e, exec, true
-binde = , i, exec, true
-binde = , o, exec, true
-binde = , u, exec, true
-binde = , y, exec, true
-binde = , c, exec, true
-binde = , n, exec, true
-binde = , s, exec, true
-binde = , z, exec, true
-binde = , d, exec, true
-binde = , f, exec, true
-binde = , g, exec, true
-binde = , h, exec, true
-binde = , k, exec, true
-binde = , l, exec, true
-binde = , m, exec, true
-binde = , p, exec, true
-binde = , r, exec, true
-binde = , t, exec, true
-binde = , w, exec, true
-binde = , x, exec, true
-binde = , 0, exec, true
-binde = , 1, exec, true
-binde = , 2, exec, true
-binde = , 3, exec, true
-binde = , 4, exec, true
-binde = , 5, exec, true
-binde = , 6, exec, true
-binde = , 7, exec, true
-binde = , 8, exec, true
-binde = , 9, exec, true
-binde = , minus, exec, true
-binde = , equal, exec, true
-binde = , slash, exec, true
-binde = , period, exec, true
-binde = , comma, exec, true
-binde = , apostrophe, exec, true
-binde = , semicolon, exec, true
-binde = , bracketleft, exec, true
-binde = , bracketright, exec, true
-binde = , backslash, exec, true
-binde = , grave, exec, true
-binde = , space, exec, true
-submap = global
-# === ACCENT-FIX SUBMAP END ==='
 
-if [ -f "$HYPR_KEYBINDS" ]; then
-    if grep -q "ACCENT-FIX SUBMAP" "$HYPR_KEYBINDS" 2>/dev/null; then
-        ok "Hyprland keybinds already present — skipping"
-    else
-        cp "$HYPR_KEYBINDS" "${HYPR_KEYBINDS}.bak"
-        echo "$HYPR_SNIPPET" >> "$HYPR_KEYBINDS"
-        ok "Keybinds added to $HYPR_KEYBINDS"
-    fi
-else
-    info "Hyprland keybinds file not found — skipping (not needed for niri)"
-fi
 
 # ════════════════════════════════════════════════════════════════
 echo ""
