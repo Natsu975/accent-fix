@@ -16,7 +16,7 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 - ⌨️ **Smart input** — Uses `evdev` grab + `uinput` for reliable character insertion
 - 🔄 **Clipboard-safe** — Saves and restores your clipboard content after each accent
 
-### Supported Characters
+### Example
 
 | Key | Accents |
 |-----|---------|
