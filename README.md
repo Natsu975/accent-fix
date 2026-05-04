@@ -30,7 +30,7 @@ Works on **niri**, **Hyprland**, and other wlroots-based compositors.
 
 ## Requirements
 
-- Arch Linux / CachyOS (or any Arch-based distro)
+- Linux
 - A Wayland compositor (niri, Hyprland, Sway, etc.)
 - Python 3
 
