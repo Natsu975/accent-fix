@@ -1,13 +1,26 @@
 #!/usr/bin/env python3
-import gi, evdev, threading, subprocess, os, json, atexit
+import gi, evdev, threading, subprocess, os, json, atexit, logging, sys
+
+# ── Logging setup (visible in journalctl --user -u accent-fix) ──
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+    stream=sys.stderr,
+)
+log = logging.getLogger("accent-fix")
+
 gi.require_version("Gtk", "4.0")
 try:
     gi.require_version("Gtk4LayerShell", "1.0")
     from gi.repository import Gtk4LayerShell as ls
     _HAS_LAYER_SHELL = True
-except Exception:
+    log.info("gtk4-layer-shell loaded successfully")
+except Exception as e:
     ls = None
     _HAS_LAYER_SHELL = False
+    log.warning("gtk4-layer-shell NOT available: %s", e)
+    log.warning("The accent overlay will NOT display as a floating popup.")
+    log.warning("Install gtk4-layer-shell and set LD_PRELOAD, or add a window rule.")
 from gi.repository import Gtk, GLib, Gdk
 import evdev.ecodes as ec
 
@@ -21,8 +34,14 @@ def _get_uinput():
                 name="accent_fix",
             )
             atexit.register(_uinput.close)
-        except Exception:
-            pass
+            log.info("UInput device created successfully")
+        except PermissionError:
+            log.error("Cannot create UInput device: Permission denied")
+            log.error("Fix: Add user to 'input' group and create udev rule for /dev/uinput")
+            log.error("  sudo usermod -aG input $USER")
+            log.error('  echo \'KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="input"\' | sudo tee /etc/udev/rules.d/99-uinput-input.rules')
+        except Exception as e:
+            log.error("Cannot create UInput device: %s", e)
     return _uinput
 
 def _release_key_x11(keycode: int):
@@ -51,7 +70,7 @@ def get_colors():
                     colors = data.get("colors", data)
                     if "light" in colors: # matugen typically has light/dark
                         colors = colors.get("dark", colors.get("light", colors))
-                    
+
                     fix = lambda h: h if h and h.startswith("#") else "#{0}".format(h) if h else None
                     acc = fix(colors.get("primary"))
                     bg_raw = colors.get("surface_container") or colors.get("surface")
@@ -194,7 +213,7 @@ def handler(device):
         if ev.code in (ec.KEY_LEFTSHIFT, ec.KEY_RIGHTSHIFT):
             shift = (ev.value > 0)
             continue
-        
+
         if ev.code in (ec.KEY_RIGHT, ec.KEY_LEFT):
             if ev.value in (1, 2):
                 with _lock:
@@ -251,7 +270,14 @@ def handler(device):
 
 def listen():
     seen = set()
-    for path in evdev.list_devices():
+    devices_found = 0
+    all_devices = evdev.list_devices()
+    if not all_devices:
+        log.error("No input devices found! Check permissions for /dev/input/")
+        log.error("Fix: Ensure user is in the 'input' group: sudo usermod -aG input $USER")
+        return
+    log.info("Scanning %d input device(s)...", len(all_devices))
+    for path in all_devices:
         try:
             d = evdev.InputDevice(path)
             if ec.EV_KEY not in d.capabilities(): continue
@@ -259,16 +285,30 @@ def listen():
             if ec.EV_REL in d.capabilities(): continue
             if d.name not in seen:
                 seen.add(d.name)
+                log.info("Monitoring keyboard: %s (%s)", d.name, d.path)
                 threading.Thread(target=handler, args=(d,), daemon=True).start()
-        except: pass
+                devices_found += 1
+        except PermissionError:
+            log.warning("Permission denied for %s — need 'input' group", path)
+        except Exception as e:
+            log.debug("Skipping %s: %s", path, e)
+    if devices_found == 0:
+        log.error("No keyboard devices found or accessible!")
+        log.error("If you just added yourself to the 'input' group, you need to LOG OUT and LOG BACK IN.")
+    else:
+        log.info("accent-fix ready — monitoring %d keyboard(s)", devices_found)
 
 class App(Gtk.Application):
     def __init__(self):
         super().__init__(application_id="accent.fix.daemon")
     def do_activate(self):
         global _win
+        log.info("accent-fix daemon starting...")
+        log.info("Layer shell: %s", "available" if _HAS_LAYER_SHELL else "NOT available")
         _win = AccentWin(self)
         listen()
+        # Attempt to initialize UInput early so errors show at startup
+        _get_uinput()
 
 if __name__ == "__main__":
     App().run(None)
